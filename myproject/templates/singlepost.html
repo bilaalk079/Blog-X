@@ -1,0 +1,91 @@
+{% load static %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | New Post</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+          0 0 15px rgba(0, 255, 255, 0.5);
+      }
+      a {
+        color: #00bfff;
+        text-decoration: none;
+      }
+
+      button {
+        background: #00bfff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-family: "JetBrains Mono", monospace;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+      }
+      button:hover {
+        background: #00ffff;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-gray-100 font-mono">
+    <div class="mx-auto flex flex-col justify-center items-center"></div>
+
+    <div class="w-full sm:w-1/2 mx-auto p-5">
+      <div
+        class="p-5 m-6 sm:bg-gray-800 rounded-lg border border-gray-200 shadow-xl"
+      >
+        <h2
+          class="text-3xl sm:text-2xl font-extrabold text-center mb-8 underline"
+        >
+          {{ post.title }}
+        </h2>
+
+        <pre wrap="soft" class="content whitespace-pre-wrap">{{ post.content }}</pre>
+
+        <div class="flex justify-between items-center">
+          {% if post.author.userinfo.image %}
+          <img
+            class="h-12 m-6 w-12 rounded-full border border-gray-600"
+            src="{{ post.author.userinfo.image.url }}"
+            alt="{{ post.author.username }}'s profile picture"
+          />
+          {% else %}
+          <img
+            class="h-12 w-12 rounded-full object-cover border border-gray-600 mt-6 mb-6"
+            src="{% static 'default_profile_pic.jpg' %}"
+            alt="Default profile picture"
+          />
+          {% endif %}
+          <p class="-ml-6 text-2xl underline">{{ post.author.username }}</p>
+          {% if post.author == user %}
+          <a
+            href="/edit_post/{{post.id}}"
+            class="bg-cyan-500 p-3 rounded-xl text-white font-bold text-xl m-3"
+            >Edit</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      // Display messages in alerts (if any messages are available)
+      const messages = document.querySelectorAll('input[id="get_message"]');
+      messages.forEach((messageInput) => {
+        alert(messageInput.value);
+      });
+    </script>
+  </body>
+</html>
+{% endblock content %}

@@ -1,0 +1,142 @@
+{% load static %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | Admin Sign Up</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+          0 0 15px rgba(0, 255, 255, 0.5);
+      }
+      a {
+        color: #00bfff;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      button {
+        background: #00bfff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-family: "JetBrains Mono", monospace;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+      }
+      button:hover {
+        background: #00ffff;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-950 text-gray-100 font-mono flex flex-col items-center justify-center h-screen"
+  >
+    <div
+      class="w-full sm:w-1/2 p-3 sm:bg-gray-800 rounded-lg sm:border border-gray-700 sm:shadow-lg"
+    >
+      <h2
+        class="text-6xl sm:text-3xl font-extrabold text-center mb-8 underline sm:no-underline"
+      >
+       Admin Sign Up
+      </h2>
+      <form action="" method="post" class="flex flex-col space-y-4">
+        {% csrf_token %}
+        <div>
+          <label for="email" class="block text-xl font-bold mb-2"
+            >E-mail:</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full h-12 p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            required
+          />
+          <label for="username" class="block text-xl font-bold mb-2"
+            >Username:</label
+          >
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="w-full h-12 p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="password" class="block text-xl font-bold mb-2"
+            >Password:</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="w-full h-12 p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="password" class="block text-xl font-bold mb-2"
+            >Confirm Password:</label
+          >
+          <input
+            type="password"
+            id="conpassword"
+            name="conpassword"
+            class="w-full h-12 p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            required
+          />
+        </div>
+        <br />
+        <p id="error" class="font-bold text-red-700"></p>
+        <button
+          type="submit"
+          class="bg-blue-500 text-white hover:bg-blue-600 px-6 py-2 rounded-lg w-full mt-4 font-bold"
+          id="submitform"
+        >
+          Sign Up
+        </button>
+        <h1 class="text-xl">
+          Already Have an Account? <a href="/login">Log in</a>
+        </h1>
+      </form>
+    </div>
+    <script>
+      const check = document.getElementById("submitform");
+      const pass = document.getElementById("password");
+      const conpass = document.getElementById("conpassword");
+      const error = document.getElementById("error");
+
+      check.onclick = function (e) {
+        if (pass.value !== conpass.value) {
+          error.innerHTML = "Passwords Don't Match";
+          e.preventDefault();
+          error.classList.add("text-red-700");
+          error.classList.add("font-bold");
+          error.classList.add("text-2xl");
+        }
+      };
+    </script>
+    {% for message in messages %}
+    <input type="hidden" value="{{ message }}" id="get_message" />
+
+    <script>
+      var msg = document.getElementById("get_message").value;
+      alert(msg);
+    </script>
+    {% endfor %}
+  </body>
+</html>
+{% endblock content %}

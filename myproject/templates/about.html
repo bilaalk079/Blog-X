@@ -1,0 +1,131 @@
+{% load static %} {% block content %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | About</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+  </head>
+  <style>
+    nav {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+    #hero {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+        0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      background: #00bfff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+
+    button:hover {
+      background: #00ffff;
+    }
+  </style>
+  <body class="bg-slate-950 text-white h-screen flex  justify-center flex-col w-full">
+    
+    <!-- Header -->
+    <header class="sticky top-0 border-b-2 border-cyan-500 z-10">
+        <nav class="flex justify-between items-center w-full p-4 bg-gray-900">
+            <h1 class="text-4xl font-bold text-white">TechBlog-X</h1>
+            <ul class="hidden md:flex gap-6 text-lg">
+                <li><a href="/" class="text-white hover:text-cyan-300">Home</a></li>
+                <li><a href="/discover" class="text-white hover:text-cyan-300">Discover</a></li>
+                <li><a href="/about" class="text-white hover:text-cyan-300">About</a></li>
+            </ul>
+            <div class="hidden md:flex gap-4">
+                <a href="/login" class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600">Login</a>
+                <a href="/signup" class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600">Sign Up</a>
+            </div>
+            <div class="md:hidden">
+                <button class="p-2 text-white text-3xl" id="menu-toggle">&#9776;</button>
+            </div>
+        </nav>
+        <nav id="mobile-menu" class="sticky top-4 left-0 w-full bg-gray-900 z-20 hidden flex-col items-center gap-6 p-4">
+            <ul class="text-center text-lg space-y-4">
+                <li><a href="/" class="text-white hover:text-cyan-300">Home</a></li>
+                <li><a href="/discover" class="text-white hover:text-cyan-300">Discover</a></li>
+                <li><a href="/about" class="text-white hover:text-cyan-300">About</a></li>
+            </ul>
+            <div class="flex flex-col gap-4 mt-4">
+                <a href="/login" class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 text-center">Login</a>
+                <a href="/signup" class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 text-center">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="m-24 flex flex-col h-screen items-center mx-5 sm:mx-24 -mt-16 justify-center ">
+      <h1 class="text-3xl sm:text-5xl underline mb-5 font-bold mt-10">
+        About Us
+      </h1>
+        <h1 class="text-center text-2xl sm:text-3xl font-bold mt-5">
+            Welcome to TechBlog-X, your go-to destination for all things tech and programming!
+            At TechBlog-X, we are passionate about exploring the latest trends, innovations, and breakthroughs in the tech world. Whether you’re a seasoned developer, a tech enthusiast, or someone just starting out on your programming journey, our blog is designed to provide you with valuable insights, tips, and tutorials that help you stay ahead of the curve.
+        </h1>
+    </div>
+
+    <footer>
+      <div class="flex justify-between items-center p-2 bg-gray-900 text-white">
+        <p class="text-3xl font-bold">TechBlog-X &copy;2024</p>
+        <ul class="flex gap-6 text-xl font-bold" >
+          <li><a href="/" class="text-white hover:text-cyan-300">Home</a></li>
+          <li>
+            <a href="/discover" class="text-white hover:text-cyan-300"
+              >Discover</a
+            >
+          </li>
+          <li>
+            <a href="/about" class="text-white hover:text-cyan-300">About</a>
+          </li>
+        </ul>
+      </div>
+     
+    </footer>
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      menuToggle.onclick = function () {
+        if (mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.remove("hidden");
+          mobileMenu.classList.add("flex");
+          menuToggle.innerHTML = "&times;";
+        } else {
+          mobileMenu.classList.remove("flex");
+          mobileMenu.classList.add("hidden");
+          menuToggle.innerHTML = "&#9776;";
+        }
+      };
+    </script>
+  </body>
+</html>
+{% endblock content %}

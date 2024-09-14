@@ -1,0 +1,118 @@
+{% load static %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | Edit Post</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+          0 0 15px rgba(0, 255, 255, 0.5);
+      }
+      a {
+        color: #00bfff;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      button {
+        background: #00bfff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-family: "JetBrains Mono", monospace;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+      }
+      button:hover {
+        background: #00ffff;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-950 text-gray-100 font-mono flex flex-col items-center justify-center p-5"
+  >
+    <div
+      class="w-full sm:w-1/2 p-5 sm:bg-gray-800 rounded-lg sm:border border-gray-700 sm:shadow-lg"
+    >
+      <h2
+        class="text-6xl sm:text-3xl font-extrabold text-center mb-8 underline sm:no-underline"
+      >
+        Edit Post
+      </h2>
+      <form action="" method="post" class="flex flex-col space-y-4" onsubmit="checks(e)">
+        {% csrf_token %}
+        <div>
+            <label for="title" class="block text-xl font-bold mb-2">Title:</label>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                class="w-full h-12 p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                required
+                minlength="8"
+                maxlength="60"
+                value="{{post.title}}"
+            />
+    
+            <label for="category" class="block text-xl font-bold mb-2">Category:</label>
+            <select
+                id="category"
+                name="category"
+                class="w-full h-12 p-1 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                required
+            >
+                <option value="" disabled selected>Select a category</option>
+                <option value="programming-languages"  {% if post.category == 'programming-languages' %}selected{% endif %}>Programming Languages</option>
+                <option value="web-development" {% if post.category == 'web-development' %}selected{% endif %}>Web Development</option>
+                <option value="mobile-development" {% if post.category == 'mobile-development' %}selected{% endif %}>Mobile Development</option>
+                <option value="cloud-computing" {% if post.category == 'cloud-computing' %}selected{% endif %}>Cloud Computing</option>
+                <option value="ai-ml" {% if post.category == 'ai-ml' %}selected{% endif %}>Artificial Intelligence / Machine Learning</option>
+                <option value="devops" {% if post.category == 'devops' %}selected{% endif %}>DevOps & Automation</option>
+                <option value="cybersecurity" {% if post.category == 'cybersecurity' %}selected{% endif %}>Cybersecurity</option>
+                <option value="iot" {% if post.category == 'iot' %}selected{% endif %}>Internet of Things (IoT)</option>
+                <option value="robotics" {% if post.category == 'robotics' %}selected{% endif %}>Robotics</option>
+                <option value="tech-news" {% if post.category == 'tech-news' %}selected{% endif %}>Tech News & Trends</option>
+                <option value="best-practices" {% if post.category == 'best-practices' %}selected{% endif %}>Software Development Best Practices</option>
+                <option value="tech-careers" {% if post.category == 'tech-careers' %}selected{% endif %}>Tech Careers & Advice</option>
+                <option value="hardware-gadgets" {% if post.category == 'hardware-gadgets' %}selected{% endif %}>Hardware & Gadgets</option>
+            </select>
+    
+            <label for="content" class="block text-xl font-bold mb-2">Content:</label>
+            <textarea
+                name="content"
+                id="content"
+                cols="30"
+                rows="15"
+                class="w-full p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                minlength="100"
+                required
+               
+            >{{post.content}}</textarea>
+        </div>
+    
+        <button
+            type="submit"
+            class="bg-blue-500 text-white hover:bg-blue-600 px-6 py-2 rounded-lg w-full mt-4 font-bold"
+            id="submitform"
+        >
+            Update
+        </button>
+    </form>
+    
+    </div>
+    
+  </body>
+</html>
+{% endblock content %}

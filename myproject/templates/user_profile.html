@@ -1,0 +1,213 @@
+{% load static %} {% block content %}
+
+<html lang="en">
+  {% block head %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | {{user.username}}</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'large.png'%}"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  {% endblock head %}
+  {% block style %}
+  <style>
+    nav {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+    #hero{
+      background-color: ;
+    }
+    h1,
+    h2,
+    h3
+     {
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+        0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      background: #00bfff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+
+    button:hover {
+      background: #00ffff;
+    }
+  </style>
+  {% endblock style %}
+  <body class="bg-slate-950 text-white flex flex-col">
+    <header class="sticky top-0 border-b-2 border-cyan-500 z-10">
+      <nav class="flex justify-between items-center w-full p-4 bg-gray-900">
+        <h1 class="text-3xl sm:text-4xl font-bold text-white">TechBlog-X</h1>
+        <ul class="hidden md:flex gap-6 text-lg">
+          {% if user.is_superuser %}
+          <li>
+            <a href="/admin_dashboard" class="text-white hover:text-cyan-300">Home</a>
+          </li>
+          {% else %}
+          <li>
+            <a href="/user_home" class="text-white hover:text-cyan-300">Home</a>
+          </li>
+          {% endif %}
+          
+          <li>
+            
+            <a href="/user_discover" class="text-white hover:text-cyan-300 font-bold"
+              >Discover</a
+            >
+          </li>
+            <li>
+              <a href="/my_post" class="text-white hover:text-cyan-300 font-bold"
+                >My Posts</a
+              >
+            </li>
+            <li>
+              <a href="/new_post" class="text-white hover:text-cyan-300 font-bold"
+                >New Post</a
+              >
+            </li>
+          </li>
+        </ul>
+
+        <div class="hidden md:flex gap-4 mr-3">
+          <button class="p-2 text-xl">
+            <a href="/user_profile" class=" text-white">Profile</a>
+           
+          </button>
+          <a
+            href="/logout"
+            class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600"
+            >Logout</a
+          >
+         
+
+        </div>
+        <div class="md:hidden mr-3">
+          <button class="p-2 text-3xl">
+            <a href="/user_profile" class="fa fa-user text-white"></a>
+           
+          </button>
+
+          <button class="p-2 text-white text-3xl " >
+            <a
+            href="/logout"
+            class="text-white fa fa-sign-out-alt"
+            ></a
+          >
+          <button class="p-2 text-white text-3xl ml-2" id="menu-toggle">
+            &#9776;
+          </button>
+          
+        </div>
+      </nav>
+      <nav
+        id="mobile-menu"
+        class="sticky top-4 left-0 w-full bg-gray-900 z-20 hidden flex-col items-center gap-7 p-4"
+      >
+        <ul class="text-center text-lg space-y-4">
+            
+          <li class="bg-cyan-500 p-3 rounded-xl">
+            
+            <a href="/user_home" class="text-white "
+              >Home</a
+            >
+          </li>
+          <li class="bg-cyan-500 p-3 rounded-xl">
+            
+            <a href="/user_discover" class="text-white "
+              >Discover</a
+            >
+          </li>
+          <li class="bg-cyan-500 p-3 rounded-xl">
+            <a href="/my_post" class="text-white "
+              >My Posts</a
+            >
+          </li>
+          <li class="bg-cyan-500 p-3 rounded-xl">
+            <a href="/new_post" class="text-white "
+              >New Post</a
+            >
+          </li>
+        </ul>
+        
+      </nav>
+    </header>
+      <div class="flex flex-col justify-center items-center">
+        
+        <div class="w-full sm:w-1/2 p-3 justify-center items-center flex flex-col m-6 sm:bg-gray-800 rounded-lg sm:border border-gray-700 sm:shadow-lg " id="hero">
+          <div class="relative m-6 ">
+            {% if user.userinfo.image %}
+              <img class="h-36 m-6 w-36 rounded-full border border-gray-600" 
+              src="{{ user.userinfo.image.url }}" 
+              alt="{{ user.username }}'s profile picture" />
+            {% else %}
+              <img class="h-36 w-36 rounded-full object-cover border border-gray-600 mt-6 mb-6" 
+              src="{% static 'default_profile_pic.jpg' %}" 
+              alt="Default profile picture" />
+            {% endif %}
+          </div>
+          <div class="w-full mb-2"><h1 class="text-3xl font-bold underline m-1">Username: </h1></div>
+          <div class="bg-cyan-500 rounded-xl w-full"><p class="text-2xl text-white font-bold p-3">{{user.username}}</p></div>
+          <div class="w-full mb-2"><h1 class="text-3xl font-bold underline m-1">E-mail: </h1></div>
+          <div class="bg-cyan-500 rounded-xl w-full"><p class="text-2xl text-white font-bold p-3">{{user.email}}</p></div>
+          <div class="w-full mb-2"><h1 class="text-3xl font-bold underline m-1">Bio: </h1></div>
+          <div class="bg-cyan-500 rounded-xl w-full"><p class="text-2xl text-white font-bold p-3">{{user.userinfo.bio}}</p></div>
+          <button class="p-2 text-white text-3xl m-6" >
+            <a
+            href="/edit_profile"
+            class="text-white"
+            >Edit Profile</a
+          >
+      </div>
+      </div>
+    
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      menuToggle.onclick = function () {
+        if (mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.remove("hidden");
+          mobileMenu.classList.add("flex");
+          menuToggle.innerHTML = "&times;";
+        } else {
+          mobileMenu.classList.remove("flex");
+          mobileMenu.classList.add("hidden");
+          menuToggle.innerHTML = "&#9776;";
+        }
+      };
+    </script>
+  </body>
+</html>
+{% endblock content %}

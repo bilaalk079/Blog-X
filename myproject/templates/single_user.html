@@ -1,0 +1,99 @@
+{% load static %} {% block content %}
+
+<html lang="en">
+  {% block head %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | {{user.username}}</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'large.png'%}"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  {% endblock head %}
+  {% block style %}
+  <style>
+    nav {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+        0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    
+    .delete{
+        background-color: red;
+    }
+    .blocks{
+        background-color: gray;
+    }
+    .unblock{
+        background-color: green;
+    }
+
+  </style>
+  {% endblock style %}
+  <body class="bg-slate-950 text-gray-100 font-mono flex flex-col items-center justify-center h-screen">
+    
+  
+  <div class="w-full sm:w-1/2 p-3 sm:bg-gray-800 rounded-lg sm:border border-gray-700 sm:shadow-lg ">
+    <a href="/all_users" class="font-bold text-3xl m-6 mt-32 p-3"><-</a>
+    <h1 class="font-bold text-4xl m-6 underline" ><span id="user">{{single_user.username}}</span>'s info</h1>
+    <ul class="m-6 ">
+        <li class="text-xl font-bold sm:text-3xl">Username: {{single_user.username}}</li>
+        <li class="text-xl sm:text-3xl font-bold">E-mail: {{single_user.email}}</li>
+    </ul>
+    <div class="flex gap-4 mr-3 m-6">
+        <button class="p-2 text-xl " id="delete" onclick="deleteItem(e)">
+          <a href="/delete/{{single_user.id}}" class=" text-white p-2 delete rounded-lg">Delete</a>
+         
+        </button>
+        {% if single_user.is_active == 1 %}
+        <button class="p-2 text-xl ">
+        <a
+          href="/block/{{single_user.id}}"
+          class="p-2 text-lg font-semibold bg-gray-500 text-white rounded-lg blocks"
+          >Block</a
+        >
+         </button>
+         {% else %}
+        <button class="p-2 text-xl ">
+        <a
+          href="/unblock/{{single_user.id}}"
+          class="p-2 text-lg font-semibold bg-gray-500 text-white rounded-lg unblock"
+          >Unblock</a
+        >
+         </button>
+         {% endif %}
+       
+
+      </div>
+    </div>
+   
+</body>
+</html>
+{%endblock content%}

@@ -1,0 +1,516 @@
+{% load static %} {% block content %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechBlog-X | Discover</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <style>
+    nav {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+    #hero {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    h1,
+    h2,
+    h3,
+   {
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.7),
+        0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+    }
+    .footer {
+      background-color: #1a202c; /* Example background color */
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+      width: 100%;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+  }
+  
+  .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+  }
+  
+  /* Comment Styles */
+  .comments-container {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+  }
+  
+  .comment {
+      margin-bottom: 10px;
+  }
+  
+  .comment p {
+      margin: 5px 0;
+  }
+  
+  .comment small {
+      display: block;
+      color: #777;
+  }
+  </style>
+  <body class="bg-slate-950 text-white flex flex-col h-screen">
+    <header class="sticky top-0 border-b-2 border-cyan-500 z-10">
+      <nav class="flex justify-between items-center w-full p-4 bg-gray-900">
+        <h1 class="text-4xl font-bold text-white">TechBlog-X</h1>
+        <ul class="hidden md:flex gap-6 text-lg">
+          {% if user.is_superuser %}
+          <li>
+            <a href="/admin_dashboard" class="text-white hover:text-cyan-300"
+              >Home</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a href="/user_home" class="text-white hover:text-cyan-300">Home</a>
+          </li>
+          {% endif %}
+
+          <li>
+            <a href="/user_discover" class="text-white hover:text-cyan-300"
+              >Discover</a
+            >
+          </li>
+          <li>
+            <a href="/my_post" class="text-white hover:text-cyan-300"
+              >My Posts</a
+            >
+          </li>
+          <li>
+            <a href="/new_post" class="text-white hover:text-cyan-300"
+              >New Post</a
+            >
+          </li>
+        </ul>
+        <div class="hidden md:flex gap-4">
+          <a
+            href="/logout"
+            class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600"
+            >Logout</a
+          >
+        </div>
+        <div class="md:hidden">
+          <button class="p-2 text-white text-3xl" id="menu-toggle">
+            &#9776;
+          </button>
+        </div>
+      </nav>
+      <nav
+        id="mobile-menu"
+        class="sticky top-4 left-0 w-full bg-gray-900 z-20 hidden flex-col items-center gap-6 p-4"
+      >
+        <ul class="text-center text-lg space-y-4">
+          {% if user.is_superuser %}
+          <li>
+            <a href="/admin_dashboard" class="text-white hover:text-cyan-300"
+              >Home</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a href="/user_home" class="text-white hover:text-cyan-300">Home</a>
+          </li>
+          {% endif %}
+
+          <li>
+            <a href="/user_discover" class="text-white hover:text-cyan-300"
+              >Discover</a
+            >
+          </li>
+          <li>
+            <a href="/my_post" class="text-white hover:text-cyan-300"
+              >My Posts</a
+            >
+          </li>
+          <li>
+            <a href="/new_post" class="text-white hover:text-cyan-300"
+              >New Post</a
+            >
+          </li>
+        </ul>
+        <div class="flex flex-col gap-4 mt-4">
+          <a
+            href="/logout"
+            class="p-2 text-lg font-semibold bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 text-center"
+            >Logout</a
+          >
+        </div>
+      </nav>
+    </header>
+    <h1 class="text-5xl font-bold text-center m-6 underline">Posts</h1>
+    <div class="flex justify-center flex-col p-3">
+      <form method="GET" action="">
+        <input
+          type="text"
+          name="q"
+          id="my_input"
+          class="search-input block w-full h-12 p-4 border border-gray-600 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          placeholder="Search for Posts"
+        />
+      </form>
+
+      <div id="my_search">
+        <p id="no-results" class="hidden text-red-500 text-xl font-bold">No results found</p>
+        
+        {% for post_info in post_data %}
+        <div class="post p-5 m-6 sm:bg-gray-800 rounded-lg border border-gray-200 shadow-xl">
+          
+          <div class="flex gap-5 items-center">
+            {% if post_info.post.author.userinfo.image %}
+            <img
+              class="h-12 m-6 w-12 rounded-full border border-gray-600"
+              src="{{ post_info.post.author.userinfo.image.url }}"
+              alt="{{ post_info.post.author.username }}'s profile picture"
+            />
+            {% else %}
+            <img
+              class="h-12 w-12 rounded-full object-cover border border-gray-600 mt-6 mb-6"
+              src="{% static 'default_profile_pic.jpg' %}"
+              alt="Default profile picture"
+            />
+            {% endif %}
+            <p class="ml-3 text-2xl underline">
+              {{ post_info.post.author.username }}
+            </p>
+          </div>
+          <h2 class="text-3xl sm:text-2xl font-extrabold text-center mb-8 underline">
+            {{ post_info.post.title }}
+          </h2>
+          <pre wrap="soft" class="content">{{ post_info.post.content }}</pre>
+          <div class="flex justify-between items-center">
+            <a href="/single_post/{{ post_info.post.id }}" class="p-3 rounded-xl font-bold text-xl m-3">
+              -> Read more
+            </a>
+            <div class="flex gap-3">
+              <div class="flex flex-col">
+              <button class="like-btn" data-post-id="{{ post_info.post.id }}">
+                <i class="{% if post_info.user_liked %}fas{% else %}far{% endif %} text-2xl fa-thumbs-up font-bold cursor-pointer"></i>
+              </button>
+              <p class="text-lg font-semibold">{{ post_info.like_count }} likes</p>
+            </div>
+            <div class="flex flex-col gap-5">
+              <button type="button" class="open-comments-modal fas fa-comment text-2xl mb-12" data-post-id="{{ post_info.post.id }}">
+                <p class="text-xs font-semibold p-5 mt-5">{{post_info.comment_count}} comments</p>
+            </div>
+              
+            </button>
+        
+           
+            <div class="modal comments-modal" id="modal-{{ post_info.post.id }}">
+                <div class="modal-content">
+                    <span class="close" data-post-id="{{ post_info.post.id }}">&times;</span>
+                    
+                    
+                    <div class="comments-container border border-cyan-500 rounded-xl p-3" id="comments-{{ post_info.post.id }}">
+                        
+                    </div>
+        
+                   
+                    <form class="comment-form flex gap-6" data-post-id="{{ post_info.post.id }}">
+                        <textarea name="content" placeholder="Add your comment..." class="text-black text-xl   p-3 rounded-xl border border-black" required></textarea>
+                        <button type="submit" class="bg-cyan-500 p-3 h-12 mt-6 text-white font-bold">Post Comment</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+          </div>
+
+        </div>
+        {% endfor %}
+      </div>
+      
+    </div>
+    <footer
+      class="flex justify-between items-center p-5 bg-gray-900 text-white footer"
+    >
+      <p class="text-3xl font-bold">TechBlog-X &copy;2024</p>
+      <ul class="flex gap-6 text-xl font-bold">
+        <li>
+          <a href="/user_home" class="text-white hover:text-cyan-300">Home</a>
+        </li>
+        <li>
+          <a href="/user_discover" class="text-white hover:text-cyan-300">
+            Discover</a
+          >
+        </li>
+        <li>
+          <a href="/my_post" class="text-white hover:text-cyan-300">My Posts</a>
+        </li>
+      </ul>
+    </footer>
+    <script
+      src="{% static 'cdn/jQuery-3.1.1.min.js' %}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{% static 'cdn/jQuery-ui.min.js' %}"
+      type="text/javascript"
+    ></script>
+    <link
+      href="{% static 'cdn/jQuery-ui.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script>
+      $(document).ready(function () {
+        $('#my_input').keyup(function () {
+          var my_input = $(this).val().toLowerCase();
+          var hasResults = false;
+          
+          $('#my_search div.post').filter(function () {
+            var isVisible = $(this).text().toLowerCase().indexOf(my_input) > -1;
+            $(this).toggle(isVisible);
+            if (isVisible) {
+              hasResults = true;
+            }
+          });
+    
+          // Show 'No results' message if no results match
+          if (hasResults) {
+            $('#no-results').addClass('hidden');
+          } else {
+            $('#no-results').removeClass('hidden');
+          }
+        });
+      });
+    </script>
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      menuToggle.onclick = function () {
+        if (mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.remove("hidden");
+          mobileMenu.classList.add("flex");
+          menuToggle.innerHTML = "&times;";
+        } else {
+          mobileMenu.classList.remove("flex");
+          mobileMenu.classList.add("hidden");
+          menuToggle.innerHTML = "&#9776;";
+        }
+      };
+      // Truncate content if it's more than 300 characters
+      const contentElements = document.querySelectorAll(".content");
+      contentElements.forEach((contentElement) => {
+        const content = contentElement.textContent.trim();
+        if (content.length > 300) {
+          contentElement.textContent = content.slice(0, 300) + "...";
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const likeButtons = document.querySelectorAll(".like-btn");
+
+        likeButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const postId = this.getAttribute("data-post-id");
+            const icon = this.querySelector("i");
+            const likeCountElem = this.nextElementSibling; 
+
+            // Send an AJAX request to toggle the like
+            fetch(`/toggle_like/${postId}/`, {
+              method: "POST",
+              headers: {
+                "X-CSRFToken": getCookie("csrftoken"), // Include the CSRF token
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // Update icon based on the new like status
+                if (data.is_liked) {
+                  icon.classList.remove("far");
+                  icon.classList.add("fas");
+                } else {
+                  icon.classList.remove("fas");
+                  icon.classList.add("far");
+                }
+
+                // Update the like count
+                likeCountElem.textContent = `${data.like_count} likes`;
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(
+                  cookie.substring(name.length + 1)
+                );
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+      });
+    </script>
+    <script>
+      // Truncate content if it's more than 300 characters
+      const contentElements = document.querySelectorAll('.content');
+      contentElements.forEach(contentElement => {
+        const content = contentElement.textContent.trim();
+        if (content.length > 300) {
+          contentElement.textContent = content.slice(0, 250) + '...';
+        }
+      });
+
+      // Display messages in alerts (if any messages are available)
+      const messages = document.querySelectorAll('input[id="get_message"]');
+      messages.forEach(messageInput => {
+        alert(messageInput.value);
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        // Function to get the CSRF token
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        // Open modal and load comments
+        $('.open-comments-modal').click(function () {
+            var postId = $(this).data('post-id');
+            var modal = $('#modal-' + postId);
+            modal.show();
+    
+            // Load comments via AJAX
+            $.get('/comments/' + postId + '/', function (data) {
+                var commentsContainer = $('#comments-' + postId);
+                commentsContainer.empty();
+                data.forEach(function (comment) {
+                    commentsContainer.append(
+                        `<div class="comment p-2">
+                            <p class="text-black font-bold text-2xl"><strong>${comment.user }</strong>:</p>
+                            <p class="text-black font-bold text-xl">${comment.content}</p>
+                            <small class="text-black font-bold text-lg">${comment.created_at}</small>
+                        </div>`
+                    );
+                });
+            });
+        });
+    
+        // Close modal
+        $('.close').click(function () {
+            var postId = $(this).data('post-id');
+            $('#modal-' + postId).hide();
+        });
+    
+        // Submit new comment via AJAX
+        $('.comment-form').submit(function (e) {
+            e.preventDefault();
+            var postId = $(this).data('post-id');
+            var form = $(this);
+            var content = form.find('textarea[name="content"]').val();
+            var csrfToken = getCookie('csrftoken');
+    
+            $.ajax({
+                url: `/comment/add/${postId}/`,
+                type: 'POST',
+                data: {
+                    content: content,
+                    csrfmiddlewaretoken: csrfToken
+                },
+                success: function (data) {
+                    // Append the new comment to the comments section
+                    var commentsContainer = $('#comments-' + postId);
+                    commentsContainer.append(
+                        `<div class="comment">
+                            <p><strong>${data.user}</strong>:</p>
+                            <p>${data.content}</p>
+                            <small>${data.created_at}</small>
+                        </div>`
+                    );
+                    form[0].reset();  // Clear the comment box
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
+        });
+    });
+    
+    </script>
+  </body>
+</html>
+{% endblock content %}
