@@ -27,21 +27,25 @@ To use this project follow the steps below
 ```bash
 pip install -r requirements.txt
 ```
-### 4. **Database Setup with XAMPP**
+### 4. Install Node.js dependencies 
+```bash
+npm install
+```
+### 5. **Database Setup with XAMPP**
 
-### 5. **Download and install XAMPP.**
+### 6. **Download and install XAMPP.**
 
-### 6. Start XAMPP Services:
+### 7. Start XAMPP Services:
 
-### 7. Start Apache and MySQL from the XAMPP Control Panel.
+### 8. Start Apache and MySQL from the XAMPP Control Panel.
 
-### 8. Create the Database:
+### 9. Create the Database:
 
    Open a web browser and go to http://localhost/phpmyadmin/.
    
    Create a new database named your-database-name.
    
-### 9. Update Database Settings:
+### 10. Update Database Settings:
 
    Ensure the following settings in settings.py:
    ```bash
@@ -56,20 +60,20 @@ pip install -r requirements.txt
     }
 }
 ```
-### 10. Run Migrations:
+### 11. Run Migrations:
 ```bash
 python manage.py makemigrations
 ```
 
-### 11. Apply the migrations to set up the database schema:
+### 12. Apply the migrations to set up the database schema:
  ```bash
   python manage.py migrate
 ```
-### 12. Run the Development Server:
+### 13. Run the Development Server:
 ```bash
 python manage.py runserver
 ```
-### 13. Access the Project:
+### 14. Access the Project:
 
 Open a web browser and go to http://127.0.0.1:8000/ to access the project.
  you can customize 'your-database-name' into any name of your choice.
